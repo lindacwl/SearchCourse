@@ -5,8 +5,8 @@ class CoursesController < ApplicationController
   # GET /courses.json
   def index
     @courses = Course.all
-    if params[:Name].present?
-      @courses=@courses.where("name like?","%#{params[:Name]}%")
+    if params[:name].present?
+      @courses=@courses.where("name like?","%#{params[:name]}%")
     end
     
     if params[:teacher].present?
