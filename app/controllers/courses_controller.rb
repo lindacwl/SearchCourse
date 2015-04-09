@@ -5,6 +5,17 @@ class CoursesController < ApplicationController
   # GET /courses.json
   def index
     @courses = Course.all
+    if params[:Name].present?
+      @courses=@courses.where("name like?","%#{params[:Name]}%")
+    end
+    
+    if params[:teacher].present?
+      @courses=@courses.where("teacher like ?","%#{params[:teacher]}%")
+    end
+
+    if params[:time].present?
+    @courses=@courses.where("time like ?","%#{params[:time]}%")
+    end
   end
 
   # GET /courses/1
@@ -28,7 +39,7 @@ class CoursesController < ApplicationController
 
     respond_to do |format|
       if @course.save
-        format.html { redirect_to @course, notice: 'Course was successfully created.' }
+        format.html { redirect_to courses_path, notice: 'Course was successfully created.' }
         format.json { render :show, status: :created, location: @course }
       else
         format.html { render :new }
@@ -42,7 +53,7 @@ class CoursesController < ApplicationController
   def update
     respond_to do |format|
       if @course.update(course_params)
-        format.html { redirect_to @course, notice: 'Course was successfully updated.' }
+        format.html { redirect_to courses_path, notice: 'Course was successfully updated.' }
         format.json { render :show, status: :ok, location: @course }
       else
         format.html { render :edit }
